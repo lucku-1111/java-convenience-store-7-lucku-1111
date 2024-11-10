@@ -21,11 +21,12 @@ public class OutputView {
     private static final String PRODUCT_NAME_HEADER = "상품명";
     private static final String QUANTITY_HEADER = "수량";
     private static final String PRICE_HEADER = "금액";
-    private static final String COLUMN_TITLES = "%-16s%-5s%10s";
-    private static final String PURCHASED_PRODUCT_FORMAT = "%-16s%-5d%12s";
-    private static final String FREE_PRODUCT_FORMAT = "%-16s%-5d";
-    private static final String TOTAL_AMOUNT_FORMAT = "%-16s%-5d%12s";
-    private static final String DISCOUNT_DISPLAY_FORMAT = "%-16s%17s";
+    private static final String COLUMN_TITLES = "%-16s%-10s%s";
+    private static final String PURCHASED_PRODUCT_FORMAT = "%-16s%-10d%-10s";
+    private static final String FREE_PRODUCT_FORMAT = "%-16s%-10d";
+    private static final String TOTAL_PRICE_FORMAT = "%-16s%-10d%-10s";
+    private static final String DISCOUNT_PRICE_FORMAT = "%-26s%-10s";
+    private static final String FINAL_PAYMENT_FORMAT = "%-27s%-10s";
 
     private static final String TOTAL_PURCHASE_LABEL = "총구매액";
     private static final String PROMOTION_DISCOUNT_LABEL = "행사할인";
@@ -83,8 +84,9 @@ public class OutputView {
                 COLUMN_TITLES,
                 PRODUCT_NAME_HEADER,
                 QUANTITY_HEADER,
-                PRICE_HEADER
-        ));
+                PRICE_HEADER)
+                .trim()
+        );
     }
 
     private void printPurchasedProducts(Receipt receipt) {
@@ -93,19 +95,17 @@ public class OutputView {
                     PURCHASED_PRODUCT_FORMAT,
                     product.name(),
                     product.quantity(),
-                    formatAmount(product.price())
-            ));
+                    formatAmount(product.price()))
+                    .trim()
+            );
         }
     }
 
     private void printFreeProducts(Receipt receipt) {
         System.out.println(PROMOTION_SECTION);
         for (ProductReceiptDto freeProduct : receipt.getFreeProducts()) {
-            System.out.println(String.format(
-                    FREE_PRODUCT_FORMAT,
-                    freeProduct.name(),
-                    freeProduct.quantity()
-            ));
+            System.out.println(String.format(FREE_PRODUCT_FORMAT, freeProduct.name(),
+                    freeProduct.quantity()).trim());
         }
     }
 
@@ -119,34 +119,38 @@ public class OutputView {
 
     private void printTotalPurchase(Receipt receipt) {
         System.out.println(String.format(
-                TOTAL_AMOUNT_FORMAT,
+                TOTAL_PRICE_FORMAT,
                 TOTAL_PURCHASE_LABEL,
                 receipt.getTotalOriginInfo().quantity(),
-                formatAmount(receipt.getTotalOriginInfo().price())
-        ));
+                formatAmount(receipt.getTotalOriginInfo().price()))
+                .trim()
+        );
     }
 
     private void printPromotionDiscount(Receipt receipt) {
         System.out.println(String.format(
-                DISCOUNT_DISPLAY_FORMAT,
+                DISCOUNT_PRICE_FORMAT,
                 PROMOTION_DISCOUNT_LABEL,
-                MINUS_STRING + formatAmount(receipt.getTotalFreePrice())
-        ));
+                MINUS_STRING + formatAmount(receipt.getTotalFreePrice()))
+                .trim()
+        );
     }
 
     private void printMembershipDiscount(Receipt receipt) {
         System.out.println(String.format(
-                DISCOUNT_DISPLAY_FORMAT,
+                DISCOUNT_PRICE_FORMAT,
                 MEMBERSHIP_DISCOUNT_LABEL,
-                MINUS_STRING + formatAmount(receipt.getMembershipPrice())
-        ));
+                MINUS_STRING + formatAmount(receipt.getMembershipPrice()))
+                .trim()
+        );
     }
 
     private void printFinalPayment(Receipt receipt) {
         System.out.println(String.format(
-                DISCOUNT_DISPLAY_FORMAT,
+                FINAL_PAYMENT_FORMAT,
                 FINAL_PAYMENT_LABEL,
-                formatAmount(receipt.getTotalPayment())
-        ));
+                formatAmount(receipt.getFinalPayment()))
+                .trim()
+        );
     }
 }
