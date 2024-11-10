@@ -68,6 +68,16 @@ public class StoreManager {
                 (promotionalQuantity - (promotionalQuantity % (promotion.buy() + promotion.get())));
     }
 
+    public List<Integer> calculateOrder(Order order) {
+        Product product = productRepository.findProduct(order.getName()).orElseThrow();
+        List<Integer> result = new ArrayList<>();
+
+        calculatePromotionalAndFreeProduct(product, order, result);
+        result.add(calculateRegularProduct(order));
+        result.add(product.getPrice());
+        return result;
+    }
+
     private ProductDto convertToProductDto(Product product) {
         return new ProductDto(
                 product.getName(),

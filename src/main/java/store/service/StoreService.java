@@ -6,11 +6,13 @@ import java.util.List;
 import store.constant.OrderStatus;
 import store.domain.LocalTimeGenerator;
 import store.domain.Order;
+import store.domain.ReceiptConverter;
 import store.domain.StoreManager;
 import store.dto.OrderNotice;
 import store.domain.OrderResult;
 import store.dto.ProductDto;
 import store.dto.PurchaseInfo;
+import store.dto.Receipt;
 
 public class StoreService {
     private final StoreManager storeManager;
@@ -81,6 +83,5 @@ public class StoreService {
         }
         return new OrderNotice(OrderStatus.NOT_APPLICABLE, order.getName(),
                 storeManager.isStockInsufficient(order));
-    }
     }
 }

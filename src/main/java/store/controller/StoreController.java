@@ -4,6 +4,7 @@ import java.util.List;
 import store.constant.OrderStatus;
 import store.dto.OrderNotice;
 import store.dto.PurchaseInfo;
+import store.dto.Receipt;
 import store.service.StoreService;
 import store.view.InputView;
 import store.view.OutputView;
@@ -30,6 +31,7 @@ public class StoreController {
         outputView.printProductInventory(storeService.getProducts());
         enterOrderInfo();
         checkOrders();
+        outputView.printReceipt(calculateOrders());
     }
 
     private void enterOrderInfo() {
@@ -75,6 +77,14 @@ public class StoreController {
             }
         }
     }
+
+    private Receipt calculateOrders() {
+        try {
+            return storeService.calculateOrders(inputView.askForMembershipDiscount());
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            return calculateOrders();
+        }
     }
 
     private boolean wantMorePurchase() {
