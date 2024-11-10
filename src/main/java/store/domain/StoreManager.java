@@ -44,6 +44,30 @@ public class StoreManager {
         );
     }
 
+    public Integer isValidForAdditionalProduct(Order order) {
+        Product product = productRepository.findProduct(order.getName()).orElse(null);
+        Promotion promotion = promotionRepository.find(product.getPromotion()).orElse(null);
+        if (!canApplyPromotion(product, promotion, order)) {
+            return 0;
+        }
+        return getAdditionalProductQuantity(
+                product.getQuantity(),
+                promotion,
+                order
+        );
+    }
+
+    public Integer isStockInsufficient(Order order) {
+        Product product = productRepository.findProduct(order.getName()).orElse(null);
+        Promotion promotion = promotionRepository.find(product.getPromotion()).orElse(null);
+        if (!canApplyPromotion(product, promotion, order)) {
+            return 0;
+        }
+        int promotionalQuantity = product.getQuantity();
+        return order.getQuantity() -
+                (promotionalQuantity - (promotionalQuantity % (promotion.buy() + promotion.get())));
+    }
+
     private ProductDto convertToProductDto(Product product) {
         return new ProductDto(
                 product.getName(),
@@ -52,6 +76,7 @@ public class StoreManager {
                 product.getPromotion()
         );
     }
+
     private void validateProductExist(Product promotionalProduct, Product regularProduct) {
         if (promotionalProduct == null && regularProduct == null) {
             throw new IllegalArgumentException(NOT_EXIST_PRODUCT_MESSAGE);
@@ -62,5 +87,66 @@ public class StoreManager {
         if (promotionalQuantity + regularQuantity < purchaseQuantity) {
             throw new IllegalArgumentException(QUANTITY_EXCEED_MESSAGE);
         }
+    }
+
+    private boolean canApplyPromotion(Product promotionalProduct, Promotion promotion, Order order) {
+        if (promotionalProduct == null || promotion == null) {
+            return false;
+        }
+        return order.getCreationDate().isAfter(promotion.startDate()) &&
+                order.getCreationDate().isBefore(promotion.endDate());
+    }
+
+    private Integer getAdditionalProductQuantity(int promotionalQuantity, Promotion promotion, Order order) {
+        if (promotionalQuantity >= order.getQuantity() + promotion.get() &&
+                order.getQuantity() % (promotion.buy() + promotion.get()) == promotion.buy()) {
+            return promotion.get();
+        }
+        return 0;
+    }
+
+    private void calculatePromotionalAndFreeProduct(Product product, Order order, List<Integer> result) {
+        Promotion promotion = promotionRepository.find(product.getPromotion()).orElse(null);
+
+        if (canApplyPromotion(product, promotion, order)) {
+            result.add(comparePromotionalProductAndOrder(product, promotion, order));
+            result.add(result.getFirst() / (promotion.buy() + promotion.get()));
+            return;
+        }
+        result.add(0);
+        result.add(0);
+    }
+
+    private Integer calculateRegularProduct(Order order) {
+        Product product = productRepository.findProduct(order.getName()).orElse(null);
+        if (order.getQuantity() == 0 || product == null)
+            return 0;
+        if (product.getPromotion().isEmpty())
+            return compareRegularProductAndOrder(product, order);
+        Product regularProduct = productRepository.findRegularProduct(order.getName()).orElse(null);
+        return compareRegularProductAndOrder(product, order) +
+                compareRegularProductAndOrder(regularProduct, order);
+    }
+
+    private Integer comparePromotionalProductAndOrder(Product product, Promotion promotion, Order order) {
+        if (product.getQuantity() >= order.getQuantity()) {
+            return updateProductAndOrder(product, order,
+                    order.getQuantity() - (order.getQuantity() % (promotion.buy() + promotion.get())));
+        }
+        return updateProductAndOrder(product, order,
+                product.getQuantity() - (product.getQuantity() % (promotion.buy() + promotion.get())));
+    }
+
+    private Integer compareRegularProductAndOrder(Product product, Order order) {
+        if (product.getQuantity() >= order.getQuantity()) {
+            return updateProductAndOrder(product, order, order.getQuantity());
+        }
+        return updateProductAndOrder(product, order, product.getQuantity());
+    }
+
+    private Integer updateProductAndOrder(Product product, Order order, int quantityDelta) {
+        product.updateQuantity(quantityDelta);
+        order.updateQuantity(-quantityDelta);
+        return quantityDelta;
     }
 }
