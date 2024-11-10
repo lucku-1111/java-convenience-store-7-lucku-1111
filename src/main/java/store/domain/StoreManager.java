@@ -103,8 +103,8 @@ public class StoreManager {
         if (promotionalProduct == null || promotion == null) {
             return false;
         }
-        return order.getCreationDate().isAfter(promotion.startDate()) &&
-                order.getCreationDate().isBefore(promotion.endDate());
+        return !order.getCreationDate().isBefore(promotion.startDate()) &&
+                !order.getCreationDate().isAfter(promotion.endDate());
     }
 
     private Integer getAdditionalProductQuantity(int promotionalQuantity, Promotion promotion, Order order) {
