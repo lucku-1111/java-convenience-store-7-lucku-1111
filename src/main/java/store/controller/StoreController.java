@@ -24,6 +24,18 @@ public class StoreController {
     private void runStore() {
         outputView.printWelcomeMessage();
         outputView.printProductInventory(storeService.getProducts());
+        enterOrderInfo();
+
+    private void enterOrderInfo() {
+        try {
+            storeService.resetOrders();
+            List<PurchaseInfo> purchases = inputView.readPurchases();
+            storeService.applyPurchaseInfo(purchases);
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            enterOrderInfo();
+        }
+    }
     }
 
     private boolean wantMorePurchase() {
