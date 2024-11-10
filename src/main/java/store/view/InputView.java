@@ -10,6 +10,7 @@ import static store.constant.ErrorMessages.INVALID_FORMAT_MESSAGE;
 
 public class InputView {
     private static final String PURCHASE_PROMPT = "구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])";
+    private static final String ADDITIONAL_PURCHASE_PROMPT = "감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)";
     private static final String ORDER_DELIMITER = ",";
     private static final String NAME_QUANTITY_DELIMITER = "-";
     private static final String EMPTY_STRING = "";
