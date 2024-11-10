@@ -46,6 +46,7 @@ public class StoreManager {
 
     public Integer isValidForAdditionalProduct(Order order) {
         Product product = productRepository.findProduct(order.getName()).orElse(null);
+        assert product != null;
         Promotion promotion = promotionRepository.find(product.getPromotion()).orElse(null);
         if (!canApplyPromotion(product, promotion, order)) {
             return 0;
@@ -59,6 +60,7 @@ public class StoreManager {
 
     public Integer isStockInsufficient(Order order) {
         Product product = productRepository.findProduct(order.getName()).orElse(null);
+        assert product != null;
         Promotion promotion = promotionRepository.find(product.getPromotion()).orElse(null);
         if (!canApplyPromotion(product, promotion, order)) {
             return 0;
@@ -136,8 +138,8 @@ public class StoreManager {
             return compareRegularProductAndOrder(product, order);
         }
         Product regularProduct = productRepository.findRegularProduct(order.getName()).orElse(null);
-        return compareRegularProductAndOrder(product, order) +
-                compareRegularProductAndOrder(regularProduct, order);
+        assert regularProduct != null;
+        return compareRegularProductAndOrder(product, order) + compareRegularProductAndOrder(regularProduct, order);
     }
 
     private Integer comparePromotionalProductAndOrder(Product product, Promotion promotion, Order order) {
