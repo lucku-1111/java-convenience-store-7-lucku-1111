@@ -17,6 +17,7 @@ public class InputView {
             "현재 %s은(는) %d개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)";
     private static final String PROMOTION_STOCK_INSUFFICIENT_PROMPT =
             "현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)";
+    private static final String MEMBERSHIP_DISCOUNT_PROMPT = "멤버십 할인을 받으시겠습니까? (Y/N)";
     private static final String ORDER_DELIMITER = ",";
     private static final String NAME_QUANTITY_DELIMITER = "-";
     private static final String EMPTY_STRING = "";
@@ -47,6 +48,17 @@ public class InputView {
         ));
         return getUserConfirmation();
     }
+
+    public boolean askForMembershipDiscount() {
+        printPrompt(MEMBERSHIP_DISCOUNT_PROMPT);
+        return getUserConfirmation();
+    }
+
+    public boolean askForAdditionalPurchase() {
+        printPrompt(ADDITIONAL_PURCHASE_PROMPT);
+        return getUserConfirmation();
+    }
+
     private void printPrompt(String prompt) {
         System.out.println(prompt);
     }
