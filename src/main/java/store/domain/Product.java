@@ -29,7 +29,7 @@ public class Product {
         return promotion;
     }
 
-    public void updateQuantity(int quantitySold) {
+    public void soldQuantity(int quantitySold) {
         quantity -= quantitySold;
     }
 }

@@ -155,7 +155,7 @@ public class StoreManager {
     }
 
     private Integer updateProductAndOrder(Product product, Order order, int quantityDelta) {
-        product.updateQuantity(quantityDelta);
+        product.soldQuantity(quantityDelta);
         order.updateQuantity(-quantityDelta);
         return quantityDelta;
     }
