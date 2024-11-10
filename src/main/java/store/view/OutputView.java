@@ -3,6 +3,8 @@ package store.view;
 import java.util.List;
 import java.util.Objects;
 import store.dto.ProductDto;
+import store.dto.ProductReceiptDto;
+import store.dto.Receipt;
 
 public class OutputView {
     private static final String ERROR_PREFIX = "[ERROR] ";
@@ -11,6 +13,20 @@ public class OutputView {
     private static final String EMPTY_PRODUCT_FORMAT = "- %s %s원 재고 없음 %s";
     private static final String AMOUNT_FORMAT = "%,d";
     private static final String EMPTY_STRING = "";
+
+    private static final String STORE_HEADER = "==============W 편의점================";
+    private static final String PROMOTION_SECTION = "=============증     정===============";
+    private static final String TOTAL_SECTION = "====================================";
+    private static final String COLUMN_TITLES = "%-16s%-5s%10s";
+    private static final String PURCHASED_PRODUCT_FORMAT = "%-16s%-5d%12s";
+    private static final String FREE_PRODUCT_FORMAT = "%-16s%-5d";
+    private static final String TOTAL_AMOUNT_FORMAT = "%-16s%-5d%12s";
+    private static final String DISCOUNT_DISPLAY_FORMAT = "%-16s%17s";
+
+    private static final String TOTAL_PURCHASE_LABEL = "총구매액";
+    private static final String PROMOTION_DISCOUNT_LABEL = "행사할인";
+    private static final String MEMBERSHIP_DISCOUNT_LABEL = "멤버십할인";
+    private static final String FINAL_PAYMENT_LABEL = "내실돈";
 
     public void printWelcomeMessage() {
         System.out.println(WELCOME_MESSAGE);
@@ -32,6 +48,13 @@ public class OutputView {
         }
     }
 
+    public void printReceipt(Receipt receipt) {
+        printHeader();
+        printPurchasedProducts(receipt);
+        printFreeProducts(receipt);
+        printTotals(receipt);
+    }
+
     private String formatEmptyRegularProduct(ProductDto product) {
         return String.format(EMPTY_PRODUCT_FORMAT, product.name(),
                 formatAmount(product.price()), EMPTY_STRING);
@@ -48,5 +71,73 @@ public class OutputView {
 
     private String formatAmount(int amount) {
         return String.format(AMOUNT_FORMAT, amount);
+    }
+
+    private void printHeader() {
+        System.out.println(STORE_HEADER);
+        System.out.println(String.format(COLUMN_TITLES, "상품명", "수량", "금액"));
+    }
+
+    private void printPurchasedProducts(Receipt receipt) {
+        for (ProductReceiptDto product : receipt.getProducts()) {
+            System.out.println(String.format(
+                    PURCHASED_PRODUCT_FORMAT,
+                    product.name(),
+                    product.quantity(),
+                    formatAmount(product.price())
+            ));
+        }
+    }
+
+    private void printFreeProducts(Receipt receipt) {
+        System.out.println(PROMOTION_SECTION);
+        for (ProductReceiptDto freeProduct : receipt.getFreeProducts()) {
+            System.out.println(String.format(
+                    FREE_PRODUCT_FORMAT,
+                    freeProduct.name(),
+                    freeProduct.quantity()
+            ));
+        }
+    }
+
+    private void printTotals(Receipt receipt) {
+        System.out.println(TOTAL_SECTION);
+        printTotalPurchase(receipt);
+        printPromotionDiscount(receipt);
+        printMembershipDiscount(receipt);
+        printFinalPayment(receipt);
+    }
+
+    private void printTotalPurchase(Receipt receipt) {
+        System.out.println(String.format(
+                TOTAL_AMOUNT_FORMAT,
+                TOTAL_PURCHASE_LABEL,
+                receipt.getTotalOriginInfo().quantity(),
+                formatAmount(receipt.getTotalOriginInfo().price())
+        ));
+    }
+
+    private void printPromotionDiscount(Receipt receipt) {
+        System.out.println(String.format(
+                DISCOUNT_DISPLAY_FORMAT,
+                PROMOTION_DISCOUNT_LABEL,
+                formatAmount(-receipt.getTotalFreePrice())
+        ));
+    }
+
+    private void printMembershipDiscount(Receipt receipt) {
+        System.out.println(String.format(
+                DISCOUNT_DISPLAY_FORMAT,
+                MEMBERSHIP_DISCOUNT_LABEL,
+                formatAmount(-receipt.getMembershipPrice())
+        ));
+    }
+
+    private void printFinalPayment(Receipt receipt) {
+        System.out.println(String.format(
+                DISCOUNT_DISPLAY_FORMAT,
+                FINAL_PAYMENT_LABEL,
+                formatAmount(receipt.getTotalPayment())
+        ));
     }
 }
