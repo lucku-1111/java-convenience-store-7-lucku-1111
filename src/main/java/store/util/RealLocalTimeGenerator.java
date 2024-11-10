@@ -1,4 +1,4 @@
-package store.domain;
+package store.util;
 
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDate;

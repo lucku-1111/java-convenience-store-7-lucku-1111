@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import store.constant.OrderStatus;
-import store.domain.LocalTimeGenerator;
+import store.util.LocalTimeGenerator;
 import store.domain.Order;
 import store.domain.ReceiptConverter;
 import store.domain.StoreManager;

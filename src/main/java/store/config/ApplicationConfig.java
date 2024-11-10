@@ -2,8 +2,8 @@ package store.config;
 
 import java.io.IOException;
 import store.controller.StoreController;
-import store.domain.LocalTimeGenerator;
-import store.domain.RealLocalTimeGenerator;
+import store.util.LocalTimeGenerator;
+import store.util.RealLocalTimeGenerator;
 import store.domain.StoreManager;
 import store.repository.ProductRepository;
 import store.repository.PromotionRepository;
