@@ -9,14 +9,14 @@ public class Receipt {
     private ProductReceiptDto totalOriginInfo;
     private int totalFreePrice;
     private int membershipPrice;
-    private int totalPayment;
+    private int finalPayment;
 
     public Receipt() {
         this.products = new ArrayList<>();
         this.freeProducts = new ArrayList<>();
         this.totalFreePrice = 0;
         this.membershipPrice = 0;
-        this.totalPayment = 0;
+        this.finalPayment = 0;
     }
 
     public List<ProductReceiptDto> getProducts() {
@@ -39,8 +39,8 @@ public class Receipt {
         return membershipPrice;
     }
 
-    public int getTotalPayment() {
-        return totalPayment;
+    public int getFinalPayment() {
+        return finalPayment;
     }
 
     public void setProducts(List<ProductReceiptDto> products) {
@@ -63,7 +63,7 @@ public class Receipt {
         this.membershipPrice = membershipPrice;
     }
 
-    public void setTotalPayment(int totalPayment) {
-        this.totalPayment = totalPayment;
+    public void setFinalPayment(int finalPayment) {
+        this.finalPayment = finalPayment;
     }
 }

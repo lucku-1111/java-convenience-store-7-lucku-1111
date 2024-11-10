@@ -18,7 +18,7 @@ public class ReceiptConverter {
         receipt.setTotalOriginInfo(calculateTotalOriginInfo(orderResults));
         receipt.setTotalFreePrice(calculateTotalFreePrice(orderResults));
         receipt.setMembershipPrice(calculateMembershipDiscount(orderResults, isMembershipDiscount));
-        receipt.setTotalPayment(receipt.getTotalOriginInfo().price() -
+        receipt.setFinalPayment(receipt.getTotalOriginInfo().price() -
                 receipt.getTotalFreePrice() - receipt.getMembershipPrice());
         return receipt;
     }
