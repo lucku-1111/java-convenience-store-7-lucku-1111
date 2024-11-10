@@ -129,10 +129,12 @@ public class StoreManager {
 
     private Integer calculateRegularProduct(Order order) {
         Product product = productRepository.findProduct(order.getName()).orElse(null);
-        if (order.getQuantity() == 0 || product == null)
+        if (order.getQuantity() == 0 || product == null) {
             return 0;
-        if (product.getPromotion().isEmpty())
+        }
+        if (product.getPromotion().isEmpty()) {
             return compareRegularProductAndOrder(product, order);
+        }
         Product regularProduct = productRepository.findRegularProduct(order.getName()).orElse(null);
         return compareRegularProductAndOrder(product, order) +
                 compareRegularProductAndOrder(regularProduct, order);

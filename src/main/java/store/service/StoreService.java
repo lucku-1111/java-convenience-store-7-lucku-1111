@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import store.constant.OrderStatus;
-import store.util.LocalTimeGenerator;
+import store.util.LocalDateGenerator;
 import store.domain.Order;
 import store.domain.ReceiptConverter;
 import store.domain.StoreManager;
@@ -16,12 +16,12 @@ import store.dto.Receipt;
 
 public class StoreService {
     private final StoreManager storeManager;
-    private final LocalTimeGenerator timeGenerator;
+    private final LocalDateGenerator timeGenerator;
     private final List<Order> orders;
     private Iterator<Order> orderIterator;
     private Order currentOrder;
 
-    public StoreService(StoreManager storeManager, LocalTimeGenerator timeGenerator) {
+    public StoreService(StoreManager storeManager, LocalDateGenerator timeGenerator) {
         this.storeManager = storeManager;
         this.timeGenerator = timeGenerator;
         this.orders = new ArrayList<>();
