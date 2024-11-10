@@ -32,14 +32,6 @@ public class ProductRepository {
                 .findFirst();
     }
 
-    public void updatePromotionalStock(String name, int quantitySold) {
-        findPromotionalProduct(name).ifPresent(product -> product.updateQuantity(quantitySold));
-    }
-
-    public void updateRegularStock(String name, int quantitySold) {
-        findRegularProduct(name).ifPresent(product -> product.updateQuantity(quantitySold));
-    }
-
     public Optional<Product> findProduct(String name) {
         return findPromotionalProduct(name).or(() -> findRegularProduct(name));
     }
