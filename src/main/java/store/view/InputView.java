@@ -4,6 +4,7 @@ import camp.nextstep.edu.missionutils.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import store.dto.OrderNotice;
 import store.dto.PurchaseInfo;
 
 import static store.constant.ErrorMessages.INVALID_FORMAT_MESSAGE;
@@ -11,6 +12,8 @@ import static store.constant.ErrorMessages.INVALID_FORMAT_MESSAGE;
 public class InputView {
     private static final String PURCHASE_PROMPT = "구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])";
     private static final String ADDITIONAL_PURCHASE_PROMPT = "감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)";
+    private static final String PROMOTION_AVAILABLE_PROMPT =
+            "현재 %s은(는) %d개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)";
     private static final String ORDER_DELIMITER = ",";
     private static final String NAME_QUANTITY_DELIMITER = "-";
     private static final String EMPTY_STRING = "";
@@ -24,6 +27,14 @@ public class InputView {
         return parsePurchases(Console.readLine());
     }
 
+    public boolean askAddFreeProduct(OrderNotice orderNotice) {
+        printPrompt(String.format(
+                PROMOTION_AVAILABLE_PROMPT,
+                orderNotice.productName(),
+                orderNotice.quantity()
+        ));
+        return getUserConfirmation();
+    }
     private void printPrompt(String prompt) {
         System.out.println(prompt);
     }
@@ -81,5 +92,17 @@ public class InputView {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(INVALID_FORMAT_MESSAGE);
         }
+    }
+
+    private boolean getUserConfirmation() {
+        String input = Console.readLine();
+
+        if (input.equals("Y")) {
+            return true;
+        }
+        if (input.equals("N")) {
+            return false;
+        }
+        throw new IllegalArgumentException(INVALID_INPUT_MESSAGE);
     }
 }
