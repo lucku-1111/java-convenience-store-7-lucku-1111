@@ -54,6 +54,22 @@ public class StoreService {
         return determineOrderNotice(currentOrder);
     }
 
+    public void modifyOrder(int quantityDelta) {
+        currentOrder.updateQuantity(quantityDelta);
+    }
+
+    public Receipt calculateOrders(boolean isMembershipDiscount) {
+        List<OrderResult> orderResults = new ArrayList<>();
+        ReceiptConverter converter = new ReceiptConverter();
+
+        for (Order order : orders) {
+            List<Integer> result = storeManager.calculateOrder(order);
+            orderResults.add(new OrderResult(order.getName(), result.getFirst(),
+                    result.get(1), result.get(2), result.getLast()));
+        }
+        return converter.convertToReceipt(orderResults, isMembershipDiscount);
+    }
+
     private OrderNotice determineOrderNotice(Order order) {
         if (storeManager.isValidForAdditionalProduct(order) != 0) {
             return new OrderNotice(OrderStatus.PROMOTION_AVAILABLE_ADDITIONAL_PRODUCT, order.getName(),
