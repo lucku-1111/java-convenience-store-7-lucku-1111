@@ -2,8 +2,8 @@ package store.config;
 
 import java.io.IOException;
 import store.controller.StoreController;
-import store.util.LocalTimeGenerator;
-import store.util.RealLocalTimeGenerator;
+import store.util.LocalDateGenerator;
+import store.util.RealLocalDateGenerator;
 import store.domain.StoreManager;
 import store.repository.ProductRepository;
 import store.repository.PromotionRepository;
@@ -50,7 +50,7 @@ public class ApplicationConfig {
         return new PromotionRepository(resourceFileReader.readPromotions());
     }
 
-    public LocalTimeGenerator realLocalTimeGenerator() {
-        return new RealLocalTimeGenerator();
+    public LocalDateGenerator realLocalTimeGenerator() {
+        return new RealLocalDateGenerator();
     }
 }
