@@ -6,8 +6,13 @@ import store.dto.ProductReceiptDto;
 import store.dto.Receipt;
 
 public class ReceiptConverter {
+    private static final int DISCOUNT_RATE = 30;
+    private static final int PERCENT_DIVISOR = 100;
+    private static final int MAX_DISCOUNT_AMOUNT = 8000;
+
     public Receipt convertToReceipt(List<OrderResult> orderResults, boolean isMembershipDiscount) {
         Receipt receipt = new Receipt();
+
         receipt.setProducts(createProductList(orderResults));
         receipt.setFreeProducts(createFreeProductList(orderResults));
         receipt.setTotalOriginInfo(calculateTotalOriginInfo(orderResults));
@@ -30,9 +35,11 @@ public class ReceiptConverter {
 
     private List<ProductReceiptDto> createFreeProductList(List<OrderResult> orderResults) {
         List<ProductReceiptDto> freeProducts = new ArrayList<>();
+
         for (OrderResult orderResult : orderResults) {
             if (orderResult.freeQuantity() > 0) {
-                freeProducts.add(new ProductReceiptDto(orderResult.productName(), orderResult.freeQuantity(), 0));
+                freeProducts.add(new ProductReceiptDto(orderResult.productName(),
+                        orderResult.freeQuantity(), 0));
             }
         }
         return freeProducts;
@@ -61,6 +68,7 @@ public class ReceiptConverter {
         int totalRegularPrice = orderResults.stream()
                 .mapToInt(order -> order.regularQuantity() * order.price())
                 .sum();
-        return Math.min(totalRegularPrice * 30 / 100, 8000);
+
+        return Math.min(totalRegularPrice * DISCOUNT_RATE / PERCENT_DIVISOR, MAX_DISCOUNT_AMOUNT);
     }
 }

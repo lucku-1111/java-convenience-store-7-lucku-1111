@@ -17,6 +17,9 @@ public class OutputView {
     private static final String STORE_HEADER = "==============W 편의점================";
     private static final String PROMOTION_SECTION = "=============증     정===============";
     private static final String TOTAL_SECTION = "====================================";
+    private static final String PRODUCT_NAME_HEADER = "상품명";
+    private static final String QUANTITY_HEADER = "수량";
+    private static final String PRICE_HEADER = "금액";
     private static final String COLUMN_TITLES = "%-16s%-5s%10s";
     private static final String PURCHASED_PRODUCT_FORMAT = "%-16s%-5d%12s";
     private static final String FREE_PRODUCT_FORMAT = "%-16s%-5d";
@@ -75,7 +78,12 @@ public class OutputView {
 
     private void printHeader() {
         System.out.println(STORE_HEADER);
-        System.out.println(String.format(COLUMN_TITLES, "상품명", "수량", "금액"));
+        System.out.println(String.format(
+                COLUMN_TITLES,
+                PRODUCT_NAME_HEADER,
+                QUANTITY_HEADER,
+                PRICE_HEADER
+        ));
     }
 
     private void printPurchasedProducts(Receipt receipt) {
