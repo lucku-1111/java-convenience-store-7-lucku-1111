@@ -5,6 +5,7 @@ import java.util.Objects;
 import store.dto.ProductDto;
 
 public class OutputView {
+    private static final String ERROR_PREFIX = "[ERROR] ";
     private static final String WELCOME_MESSAGE = "안녕하세요. W편의점입니다.\n현재 보유하고 있는 상품입니다.";
     private static final String PRODUCT_FORMAT = "- %s %s원 %d개 %s";
     private static final String EMPTY_PRODUCT_FORMAT = "- %s %s원 재고 없음 %s";
@@ -13,6 +14,10 @@ public class OutputView {
 
     public void printWelcomeMessage() {
         System.out.println(WELCOME_MESSAGE);
+    }
+
+    public void printErrorMessage(String errorMessage) {
+        System.out.println(ERROR_PREFIX + errorMessage);
     }
 
     public void printProductInventory(List<ProductDto> products) {
