@@ -16,10 +16,6 @@ public class ProductRepository {
         return new ArrayList<>(products);
     }
 
-    public void add(Product product) {
-        products.add(product);
-    }
-
     public Optional<Product> findPromotionalProduct(String name) {
         return products.stream()
                 .filter(product -> product.getName().equals(name) && !product.getPromotion().isEmpty())

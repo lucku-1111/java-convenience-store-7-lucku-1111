@@ -12,15 +12,7 @@ public class PromotionRepository {
         this.promotions = new ArrayList<>(promotions);
     }
 
-    public List<Promotion> findAll() {
-        return new ArrayList<>(promotions);
-    }
-
-    public void add(Promotion promotion) {
-        promotions.add(promotion);
-    }
-
     public Optional<Promotion> find(String name) {
-        return promotions.stream().filter(p -> p.name().equals(name)).findFirst();
+        return promotions.stream().filter(promotion -> promotion.name().equals(name)).findFirst();
     }
 }
