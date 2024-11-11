@@ -1,7 +1,6 @@
 package store.view;
 
 import java.util.List;
-import java.util.Objects;
 import store.dto.ProductDto;
 import store.dto.ProductReceiptDto;
 import store.dto.Receipt;
@@ -12,7 +11,6 @@ public class OutputView {
     private static final String PRODUCT_FORMAT = "- %s %s원 %d개 %s";
     private static final String EMPTY_PRODUCT_FORMAT = "- %s %s원 재고 없음 %s";
     private static final String AMOUNT_FORMAT = "%,d";
-    private static final String EMPTY_STRING = "";
 
     private static final String STORE_HEADER = "==============W 편의점================";
     private static final String PROMOTION_SECTION = "=============증     정===============";
@@ -41,14 +39,8 @@ public class OutputView {
     }
 
     public void printProductInventory(List<ProductDto> products) {
-        ProductDto previousProduct = null;
         for (ProductDto product : products) {
-            if (previousProduct != null && !previousProduct.promotion().isEmpty() &&
-                    !Objects.equals(previousProduct.name(), product.name())) {
-                System.out.println(formatEmptyRegularProduct(previousProduct).trim());
-            }
             System.out.println(formatProduct(product).trim());
-            previousProduct = product;
         }
     }
 
@@ -57,11 +49,6 @@ public class OutputView {
         printPurchasedProducts(receipt);
         printFreeProducts(receipt);
         printTotals(receipt);
-    }
-
-    private String formatEmptyRegularProduct(ProductDto product) {
-        return String.format(EMPTY_PRODUCT_FORMAT, product.name(),
-                formatAmount(product.price()), EMPTY_STRING);
     }
 
     private String formatProduct(ProductDto product) {
