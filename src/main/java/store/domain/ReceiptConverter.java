@@ -25,6 +25,7 @@ public class ReceiptConverter {
 
     private List<ProductReceiptDto> createProductList(List<OrderResult> orderResults) {
         List<ProductReceiptDto> products = new ArrayList<>();
+
         for (OrderResult orderResult : orderResults) {
             int quantity = orderResult.promotionalQuantity() + orderResult.regularQuantity();
             int price = quantity * orderResult.price();
@@ -52,6 +53,7 @@ public class ReceiptConverter {
         int totalPrice = orderResults.stream()
                 .mapToInt(order -> (order.promotionalQuantity() + order.regularQuantity()) * order.price())
                 .sum();
+
         return new ProductReceiptDto(null, totalQuantity, totalPrice);
     }
 

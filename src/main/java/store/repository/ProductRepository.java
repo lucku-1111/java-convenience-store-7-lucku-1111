@@ -9,7 +9,7 @@ public class ProductRepository {
     private final List<Product> products;
 
     public ProductRepository(List<Product> products) {
-        this.products = new ArrayList<>(products);  // 초기 데이터를 기반으로 리스트 생성
+        this.products = new ArrayList<>(products);
     }
 
     public List<Product> findAll() {
