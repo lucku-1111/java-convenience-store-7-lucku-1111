@@ -13,7 +13,6 @@ public class OutputView {
     private static final String EMPTY_PRODUCT_FORMAT = "- %s %s원 재고 없음 %s";
     private static final String AMOUNT_FORMAT = "%,d";
     private static final String EMPTY_STRING = "";
-    private static final String MINUS_STRING = "-";
 
     private static final String STORE_HEADER = "==============W 편의점================";
     private static final String PROMOTION_SECTION = "=============증     정===============";
@@ -25,7 +24,7 @@ public class OutputView {
     private static final String PURCHASED_PRODUCT_FORMAT = "%-16s%-10d%-10s";
     private static final String FREE_PRODUCT_FORMAT = "%-16s%-10d";
     private static final String TOTAL_PRICE_FORMAT = "%-16s%-10d%-10s";
-    private static final String DISCOUNT_PRICE_FORMAT = "%-26s%-10s";
+    private static final String DISCOUNT_PRICE_FORMAT = "%-26s-%-10s";
     private static final String FINAL_PAYMENT_FORMAT = "%-27s%-10s";
 
     private static final String TOTAL_PURCHASE_LABEL = "총구매액";
@@ -131,7 +130,7 @@ public class OutputView {
         System.out.println(String.format(
                 DISCOUNT_PRICE_FORMAT,
                 PROMOTION_DISCOUNT_LABEL,
-                MINUS_STRING + formatAmount(receipt.getTotalFreePrice()))
+                formatAmount(receipt.getTotalFreePrice()))
                 .trim()
         );
     }
@@ -140,7 +139,7 @@ public class OutputView {
         System.out.println(String.format(
                 DISCOUNT_PRICE_FORMAT,
                 MEMBERSHIP_DISCOUNT_LABEL,
-                MINUS_STRING + formatAmount(receipt.getMembershipPrice()))
+                formatAmount(receipt.getMembershipPrice()))
                 .trim()
         );
     }
