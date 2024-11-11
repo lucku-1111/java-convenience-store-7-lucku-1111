@@ -2,7 +2,7 @@ package store.view;
 
 import java.util.List;
 import store.dto.ProductDto;
-import store.dto.ProductReceiptDto;
+import store.dto.ProductReceipt;
 import store.dto.Receipt;
 
 public class OutputView {
@@ -76,7 +76,7 @@ public class OutputView {
     }
 
     private void printPurchasedProducts(Receipt receipt) {
-        for (ProductReceiptDto product : receipt.getProducts()) {
+        for (ProductReceipt product : receipt.getProducts()) {
             System.out.println(String.format(
                     PURCHASED_PRODUCT_FORMAT,
                     product.name(),
@@ -89,7 +89,7 @@ public class OutputView {
 
     private void printFreeProducts(Receipt receipt) {
         System.out.println(PROMOTION_SECTION);
-        for (ProductReceiptDto freeProduct : receipt.getFreeProducts()) {
+        for (ProductReceipt freeProduct : receipt.getFreeProducts()) {
             System.out.println(String.format(FREE_PRODUCT_FORMAT, freeProduct.name(),
                     freeProduct.quantity()).trim());
         }
@@ -97,13 +97,13 @@ public class OutputView {
 
     private void printTotals(Receipt receipt) {
         System.out.println(TOTAL_SECTION);
-        printTotalPurchase(receipt);
+        printTotalPrice(receipt);
         printPromotionDiscount(receipt);
         printMembershipDiscount(receipt);
         printFinalPayment(receipt);
     }
 
-    private void printTotalPurchase(Receipt receipt) {
+    private void printTotalPrice(Receipt receipt) {
         System.out.println(String.format(
                 TOTAL_PRICE_FORMAT,
                 TOTAL_PURCHASE_LABEL,

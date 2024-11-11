@@ -3,7 +3,7 @@ package store.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.dto.ProductReceiptDto;
+import store.dto.ProductReceipt;
 import store.dto.Receipt;
 import java.util.List;
 
@@ -28,15 +28,15 @@ class ReceiptConverterTest {
     void 구매_상품_목록_변환_테스트() {
         assertThat(receipt.getProducts()).hasSize(2);
         assertThat(receipt.getProducts())
-                .extracting(ProductReceiptDto::name)
+                .extracting(ProductReceipt::name)
                 .containsExactly("콜라", "에너지바");
 
         assertThat(receipt.getProducts())
-                .extracting(ProductReceiptDto::quantity)
+                .extracting(ProductReceipt::quantity)
                 .containsExactly(3, 5);
 
         assertThat(receipt.getProducts())
-                .extracting(ProductReceiptDto::price)
+                .extracting(ProductReceipt::price)
                 .containsExactly(3000, 10000);
     }
 

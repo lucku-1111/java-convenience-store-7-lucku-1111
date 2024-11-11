@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Receipt {
-    private List<ProductReceiptDto> products;
-    private List<ProductReceiptDto> freeProducts;
-    private ProductReceiptDto totalOriginInfo;
+    private List<ProductReceipt> products;
+    private List<ProductReceipt> freeProducts;
+    private ProductReceipt totalOriginInfo;
     private int totalFreePrice;
     private int membershipPrice;
     private int finalPayment;
@@ -19,15 +19,15 @@ public class Receipt {
         this.finalPayment = 0;
     }
 
-    public List<ProductReceiptDto> getProducts() {
+    public List<ProductReceipt> getProducts() {
         return products;
     }
 
-    public List<ProductReceiptDto> getFreeProducts() {
+    public List<ProductReceipt> getFreeProducts() {
         return freeProducts;
     }
 
-    public ProductReceiptDto getTotalOriginInfo() {
+    public ProductReceipt getTotalOriginInfo() {
         return totalOriginInfo;
     }
 
@@ -43,15 +43,15 @@ public class Receipt {
         return finalPayment;
     }
 
-    public void setProducts(List<ProductReceiptDto> products) {
+    public void setProducts(List<ProductReceipt> products) {
         this.products = products;
     }
 
-    public void setFreeProducts(List<ProductReceiptDto> freeProducts) {
+    public void setFreeProducts(List<ProductReceipt> freeProducts) {
         this.freeProducts = freeProducts;
     }
 
-    public void setTotalOriginInfo(ProductReceiptDto totalOriginInfo) {
+    public void setTotalOriginInfo(ProductReceipt totalOriginInfo) {
         this.totalOriginInfo = totalOriginInfo;
     }
 

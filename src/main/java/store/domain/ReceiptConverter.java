@@ -2,7 +2,7 @@ package store.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import store.dto.ProductReceiptDto;
+import store.dto.ProductReceipt;
 import store.dto.Receipt;
 
 public class ReceiptConverter {
@@ -23,30 +23,30 @@ public class ReceiptConverter {
         return receipt;
     }
 
-    private List<ProductReceiptDto> createProductList(List<OrderResult> orderResults) {
-        List<ProductReceiptDto> products = new ArrayList<>();
+    private List<ProductReceipt> createProductList(List<OrderResult> orderResults) {
+        List<ProductReceipt> products = new ArrayList<>();
 
         for (OrderResult orderResult : orderResults) {
             int quantity = orderResult.promotionalQuantity() + orderResult.regularQuantity();
             int price = quantity * orderResult.price();
-            products.add(new ProductReceiptDto(orderResult.productName(), quantity, price));
+            products.add(new ProductReceipt(orderResult.productName(), quantity, price));
         }
         return products;
     }
 
-    private List<ProductReceiptDto> createFreeProductList(List<OrderResult> orderResults) {
-        List<ProductReceiptDto> freeProducts = new ArrayList<>();
+    private List<ProductReceipt> createFreeProductList(List<OrderResult> orderResults) {
+        List<ProductReceipt> freeProducts = new ArrayList<>();
 
         for (OrderResult orderResult : orderResults) {
             if (orderResult.freeQuantity() > 0) {
-                freeProducts.add(new ProductReceiptDto(orderResult.productName(),
+                freeProducts.add(new ProductReceipt(orderResult.productName(),
                         orderResult.freeQuantity(), 0));
             }
         }
         return freeProducts;
     }
 
-    private ProductReceiptDto calculateTotalOriginInfo(List<OrderResult> orderResults) {
+    private ProductReceipt calculateTotalOriginInfo(List<OrderResult> orderResults) {
         int totalQuantity = orderResults.stream()
                 .mapToInt(order -> order.promotionalQuantity() + order.regularQuantity())
                 .sum();
@@ -54,7 +54,7 @@ public class ReceiptConverter {
                 .mapToInt(order -> (order.promotionalQuantity() + order.regularQuantity()) * order.price())
                 .sum();
 
-        return new ProductReceiptDto(null, totalQuantity, totalPrice);
+        return new ProductReceipt(null, totalQuantity, totalPrice);
     }
 
     private int calculateTotalFreePrice(List<OrderResult> orderResults) {
