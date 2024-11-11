@@ -3,7 +3,6 @@ package store.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.constant.ErrorMessages;
 import store.dto.ProductDto;
 import store.dto.PurchaseInfo;
 import store.dto.Receipt;
@@ -68,7 +67,7 @@ class StoreServiceTest {
 
         assertThatThrownBy(() -> storeService.applyPurchaseInfo(purchases))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorMessages.NOT_EXIST_PRODUCT_MESSAGE);
+                .hasMessageContaining("존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 
     @DisplayName("재고 수량을 초과하여 입력하면 하면 예외를 발생시킨다.")
@@ -80,6 +79,6 @@ class StoreServiceTest {
 
         assertThatThrownBy(() -> storeService.applyPurchaseInfo(purchases))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(ErrorMessages.QUANTITY_EXCEED_MESSAGE);
+                .hasMessageContaining("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
     }
 }
