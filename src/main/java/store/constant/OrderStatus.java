@@ -1,0 +1,7 @@
+package store.constant;
+
+public enum OrderStatus {
+    NOT_APPLICABLE,
+    PROMOTION_AVAILABLE_ADDITIONAL_PRODUCT,
+    PROMOTION_STOCK_INSUFFICIENT,
+}
